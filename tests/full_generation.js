@@ -28,9 +28,9 @@ const document = generator({
     },
 
   items: [
-    {amount: 50.0, name: 'XYZ', description: 'Lorem ipsum dollor sit amet', quantity: 12},
-    {amount: 12.0, name: 'ABC', description: 'Lorem ipsum dollor sit amet', quantity: 12},
-    {amount: 127.72, name: 'DFE', description: 'Lorem ipsum dollor sit amet', quantity: 12},
+    {description: 'SMS envoyés par Eskimmo', prixunitaire: 0.87, quantity: 12, amountht: 10.44},
+      {description: '', prixunitaire: '',quantity: 'TVA 20%', amountht: 3.3},
+      {description: '', prixunitaire: '',quantity: 'Total TTC en €', amountht: 13.7},
   ],
 })
 
