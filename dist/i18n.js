@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  fr_FR: {},
   en_US: {},
   pt_BR: {
     createdAt: 'Criado em',

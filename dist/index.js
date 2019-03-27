@@ -8,10 +8,12 @@ var i18n = require('./i18n');
 var TEXT_SIZE = 8;
 var CONTENT_LEFT_PADDING = 50;
 
+
 function PDFInvoice(_ref) {
   var company = _ref.company;
   var customer = _ref.customer;
   var items = _ref.items;
+  var facture = _ref.facture;
 
   var date = new Date();
   var charge = {
@@ -36,26 +38,32 @@ function PDFInvoice(_ref) {
 
   return {
     genHeader: function genHeader() {
-      doc.fontSize(20).text(company.name, CONTENT_LEFT_PADDING, 50);
+      doc.fontSize(20).text(company.name, CONTENT_LEFT_PADDING, 30, {align: 'right'});
+      doc.fontSize(8).text(company.address, CONTENT_LEFT_PADDING, 60, {align: 'right'});
+      doc.fontSize(8).text(company.ville, CONTENT_LEFT_PADDING, 70, {align: 'right'});
+      doc.fontSize(8).text(company.phone, CONTENT_LEFT_PADDING, 80, {align: 'right'});
+      doc.fontSize(8).text(company.email, CONTENT_LEFT_PADDING, 90, {align: 'right'});
 
-      var borderOffset = doc.currentLineHeight() + 70;
+      doc.fontSize(10).text(facture.ref, CONTENT_LEFT_PADDING, 30, {align: 'left'});
+      doc.fontSize(10).text('Date : ' + moment().format('DD MMMM YYYY'), CONTENT_LEFT_PADDING, 40, {align: 'left'});
+      doc.fontSize(10).text('Titre : Facture Eskimmo', CONTENT_LEFT_PADDING, 50, {align: 'left'});
+      doc.fontSize(10).text('Période : ' + facture.periode, CONTENT_LEFT_PADDING, 60, {align: 'left'});
 
-      doc.fontSize(16).fillColor('#cccccc').text(moment().format('MMMM, DD, YYYY'), CONTENT_LEFT_PADDING, 50, {
-        align: 'right'
-      }).fillColor('#333333');
+      doc.fontSize(12).text(customer.name, CONTENT_LEFT_PADDING, 90, {align: 'left'});
+      doc.fontSize(10).text(customer.address, CONTENT_LEFT_PADDING, 105, {align: 'left'});
+      doc.fontSize(10).text('Email : ' +customer.email, CONTENT_LEFT_PADDING, 115, {align: 'left'});
+      doc.fontSize(10).text('Tel : ' + customer.phone, CONTENT_LEFT_PADDING, 125, {align: 'left'});
+
+      var borderOffset = doc.currentLineHeight() + 150;
 
       doc.strokeColor('#cccccc').moveTo(CONTENT_LEFT_PADDING, borderOffset).lineTo(divMaxWidth, borderOffset);
     },
     genFooter: function genFooter() {
-      doc.fillColor('#cccccc');
-
-      doc.fontSize(12).text(company.name, CONTENT_LEFT_PADDING, 450);
-
-      doc.text(company.address);
-      doc.text(company.phone);
-      doc.text(company.email);
-
       doc.fillColor('#333333');
+
+      doc.fontSize(8).text(company.siret, CONTENT_LEFT_PADDING, 770, {align: 'center'});
+      doc.fontSize(8).text(company.ape + company.intracom, CONTENT_LEFT_PADDING, 780, {align: 'center'});
+
     },
     genCustomerInfos: function genCustomerInfos() {
       doc.fontSize(TEXT_SIZE).text(translate.chargeFor, CONTENT_LEFT_PADDING, 400);
@@ -100,6 +108,6 @@ function PDFInvoice(_ref) {
   };
 }
 
-PDFInvoice.lang = 'pt_BR';
+PDFInvoice.lang = 'fr_FR';
 
 module.exports = PDFInvoice;
