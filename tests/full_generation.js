@@ -29,9 +29,15 @@ const document = generator({
 
   items: [
     {description: 'SMS envoyés par Eskimmo', prixunitaire: 0.87, quantity: 12, amountht: 10.44},
-      {description: '', prixunitaire: '',quantity: 'TVA 20%', amountht: 3.3},
-      {description: '', prixunitaire: '',quantity: 'Total TTC en €', amountht: 13.7},
   ],
+
+    items2: [
+        {tva: 2.09},
+    ],
+
+    items3: [
+        {amountttc: 12.53},
+    ],
 })
 
 document.generate()

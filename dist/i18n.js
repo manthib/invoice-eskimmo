@@ -6,6 +6,8 @@ module.exports = {
       name: 'Nom',
       quantity: 'Quantité',
       amountht: 'Total HT en €',
+      amountttc: 'Total TTC en €',
+      tva: 'TVA à 20% en €',
       amount: 'Total TTC en €',
       prixunitaire: 'Prix Unitaire HT en €'
 

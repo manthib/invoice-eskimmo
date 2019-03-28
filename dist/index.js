@@ -13,6 +13,8 @@ function PDFInvoice(_ref) {
   var company = _ref.company;
   var customer = _ref.customer;
   var items = _ref.items;
+  var items2 = _ref.items2;
+  var items3 = _ref.items3;
   var facture = _ref.facture;
 
   var date = new Date();
@@ -35,6 +37,11 @@ function PDFInvoice(_ref) {
     y: 270,
     inc: 145
   };
+    var table2 = {
+        x: 485,
+        y: 400,
+        inc: 145
+    };
 
   return {
     genHeader: function genHeader() {
@@ -82,16 +89,54 @@ function PDFInvoice(_ref) {
       doc.moveTo(table.x, table.y + 15).lineTo(divMaxWidth, table.y + 15).stroke();
       doc.moveTo(table.x, table.y + 35).lineTo(divMaxWidth, table.y + 35).stroke();
       doc.moveTo(table.x, table.y + 38).lineTo(divMaxWidth, table.y + 38).stroke();
+
+
     },
+      genTable2Headers: function genTable2Headers() {
+          ['tva'].forEach(function (text, i) {
+              doc.fontSize(TEXT_SIZE).text(translate[text], table2.x + i * table2.inc, table.y + 60);
+          });
+
+          doc.strokeColor('#cccccc').moveTo(485, table.y + 72).lineTo(divMaxWidth, table.y + 72);
+          doc.strokeColor('#cccccc').moveTo(485, table.y + 75).lineTo(divMaxWidth, table.y + 75);
+          //doc.strokeColor('#cccccc').moveTo(485, table.y + 95).lineTo(divMaxWidth, table.y + 95);
+         // doc.strokeColor('#cccccc').moveTo(485, table.y + 98).lineTo(divMaxWidth, table.y + 98);
+      },
+
+
       genTable2Row: function genTable2Row() {
-          items.map(function (item) {
+          items2.map(function (item) {
               return Object.assign({}, item, {
-                  amountht: numeral(item.amountht).format('0,0[.]00')
-                  // prixunitaire: numeral(item.prixunitaire).format('0,0[.]00')
+
+                  tva: numeral(item.tva).format('0,0[.]00')
               });
           }).forEach(function (item, itemIndex) {
-              ['description', 'prixunitaire', 'quantity', 'amountht'].forEach(function (field, i) {
-                  doc.fontSize(TEXT_SIZE).text(item[field], table.x + i * table.inc, table.y + TEXT_SIZE + 13 + itemIndex * 20);
+              ['tva'].forEach(function (field, i) {
+                  doc.fontSize(TEXT_SIZE).text(item[field], table2.x + i * table2.inc, table.y + 60 + TEXT_SIZE + 13 + itemIndex * 20);
+              });
+          });
+      },
+
+      genTable3Headers: function genTable3Headers() {
+          ['amountttc'].forEach(function (text, i) {
+              doc.fontSize(TEXT_SIZE).text(translate[text], table2.x + i * table2.inc, table.y + 110);
+          });
+
+          doc.strokeColor('#cccccc').moveTo(485, table.y + 122).lineTo(divMaxWidth, table.y + 122);
+          doc.strokeColor('#cccccc').moveTo(485, table.y + 125).lineTo(divMaxWidth, table.y + 125);
+         // doc.strokeColor('#cccccc').moveTo(485, table.y + 145).lineTo(divMaxWidth, table.y + 145);
+         // doc.strokeColor('#cccccc').moveTo(485, table.y + 148).lineTo(divMaxWidth, table.y + 148);
+      },
+
+      genTable3Row: function genTable3Row() {
+          items3.map(function (item) {
+              return Object.assign({}, item, {
+                  amountttc: numeral(item.amountttc).format('0,0[.]00'),
+
+              });
+          }).forEach(function (item, itemIndex) {
+              ['amountttc'].forEach(function (field, i) {
+                  doc.fontSize(TEXT_SIZE).text(item[field], table2.x + i * table.inc, table.y + 110 + TEXT_SIZE + 13 + itemIndex * 20);
               });
           });
       },
@@ -106,9 +151,12 @@ function PDFInvoice(_ref) {
     generate: function generate() {
       this.genHeader();
       this.genTableHeaders();
+      this.genTable2Headers();
+      this.genTable3Headers();
       this.genTableLines();
       this.genTableRow();
       this.genTable2Row();
+      this.genTable3Row();
       this.genFooter();
 
       doc.end();
