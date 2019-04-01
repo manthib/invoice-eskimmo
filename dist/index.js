@@ -12,17 +12,17 @@ var CONTENT_LEFT_PADDING = 50;
 function PDFInvoice(_ref) {
   var company = _ref.company;
   var customer = _ref.customer;
-  var items = _ref.items;
-  var items2 = _ref.items2;
-  var items3 = _ref.items3;
+  var tab_recap = _ref.tab_recap;
+  var tab_tva = _ref.tab_tva;
+  var tab_ttc = _ref.tab_ttc;
   var facture = _ref.facture;
 
   var date = new Date();
   var charge = {
     createdAt: date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear(),
-    amount: items.reduce(function (acc, item) {
+    /*amount: items.reduce(function (acc, item) {
       return acc + item.amount;
-    }, 0)
+    }, 0)*/
   };
   var doc = new pdfKit({ size: 'A4', margin: 50 });
 
@@ -43,25 +43,32 @@ function PDFInvoice(_ref) {
         inc: 145
     };
 
+
+
   return {
+      genLogo: function genLogo() {
+        doc.image('logo.png', 450, 10, {scale: 0.2});
+      },
+
     genHeader: function genHeader() {
-      doc.fontSize(20).text(company.name, CONTENT_LEFT_PADDING, 30, {align: 'right'});
-      doc.fontSize(8).text(company.address, CONTENT_LEFT_PADDING, 60, {align: 'right'});
-      doc.fontSize(8).text(company.ville, CONTENT_LEFT_PADDING, 70, {align: 'right'});
-      doc.fontSize(8).text(company.phone, CONTENT_LEFT_PADDING, 80, {align: 'right'});
-      doc.fontSize(8).text(company.email, CONTENT_LEFT_PADDING, 90, {align: 'right'});
+
+        doc.fontSize(20).text(company.name, CONTENT_LEFT_PADDING, 120, {align: 'right'});
+      doc.fontSize(8).text(company.address, CONTENT_LEFT_PADDING, 150, {align: 'right'});
+      doc.fontSize(8).text(company.ville, CONTENT_LEFT_PADDING, 160, {align: 'right'});
+      doc.fontSize(8).text(company.phone, CONTENT_LEFT_PADDING, 170, {align: 'right'});
+      doc.fontSize(8).text(company.email, CONTENT_LEFT_PADDING, 180, {align: 'right'});
 
       doc.fontSize(10).text(facture.ref, CONTENT_LEFT_PADDING, 30, {align: 'left'});
       doc.fontSize(10).text('Date : ' + moment().format('DD MMMM YYYY'), CONTENT_LEFT_PADDING, 40, {align: 'left'});
       doc.fontSize(10).text('Titre : Facture Eskimmo', CONTENT_LEFT_PADDING, 50, {align: 'left'});
       doc.fontSize(10).text('Période : ' + facture.periode, CONTENT_LEFT_PADDING, 60, {align: 'left'});
 
-      doc.fontSize(12).text(customer.name, CONTENT_LEFT_PADDING, 90, {align: 'left'});
-      doc.fontSize(10).text(customer.address, CONTENT_LEFT_PADDING, 105, {align: 'left'});
-      doc.fontSize(10).text('Email : ' +customer.email, CONTENT_LEFT_PADDING, 115, {align: 'left'});
-      doc.fontSize(10).text('Tel : ' + customer.phone, CONTENT_LEFT_PADDING, 125, {align: 'left'});
+      doc.fontSize(12).text(customer.name, CONTENT_LEFT_PADDING, 140, {align: 'left'});
+      doc.fontSize(10).text(customer.address, CONTENT_LEFT_PADDING, 155, {align: 'left'});
+      doc.fontSize(10).text('Email : ' +customer.email, CONTENT_LEFT_PADDING, 165, {align: 'left'});
+      doc.fontSize(10).text('Tel : ' + customer.phone, CONTENT_LEFT_PADDING, 175, {align: 'left'});
 
-      var borderOffset = doc.currentLineHeight() + 150;
+      var borderOffset = doc.currentLineHeight() + 200;
 
       doc.strokeColor('#cccccc').moveTo(CONTENT_LEFT_PADDING, borderOffset).lineTo(divMaxWidth, borderOffset);
     },
@@ -72,7 +79,7 @@ function PDFInvoice(_ref) {
       });
     },
     genTableRow: function genTableRow() {
-      items.map(function (item) {
+      tab_recap.map(function (item) {
         return Object.assign({}, item, {
           amountht: numeral(item.amountht).format('0,0[.]00')
          // prixunitaire: numeral(item.prixunitaire).format('0,0[.]00')
@@ -99,13 +106,12 @@ function PDFInvoice(_ref) {
 
           doc.strokeColor('#cccccc').moveTo(485, table.y + 72).lineTo(divMaxWidth, table.y + 72);
           doc.strokeColor('#cccccc').moveTo(485, table.y + 75).lineTo(divMaxWidth, table.y + 75);
-          //doc.strokeColor('#cccccc').moveTo(485, table.y + 95).lineTo(divMaxWidth, table.y + 95);
-         // doc.strokeColor('#cccccc').moveTo(485, table.y + 98).lineTo(divMaxWidth, table.y + 98);
+
       },
 
 
       genTable2Row: function genTable2Row() {
-          items2.map(function (item) {
+          tab_tva.map(function (item) {
               return Object.assign({}, item, {
 
                   tva: numeral(item.tva).format('0,0[.]00')
@@ -124,12 +130,11 @@ function PDFInvoice(_ref) {
 
           doc.strokeColor('#cccccc').moveTo(485, table.y + 122).lineTo(divMaxWidth, table.y + 122);
           doc.strokeColor('#cccccc').moveTo(485, table.y + 125).lineTo(divMaxWidth, table.y + 125);
-         // doc.strokeColor('#cccccc').moveTo(485, table.y + 145).lineTo(divMaxWidth, table.y + 145);
-         // doc.strokeColor('#cccccc').moveTo(485, table.y + 148).lineTo(divMaxWidth, table.y + 148);
+
       },
 
       genTable3Row: function genTable3Row() {
-          items3.map(function (item) {
+          tab_ttc.map(function (item) {
               return Object.assign({}, item, {
                   amountttc: numeral(item.amountttc).format('0,0[.]00'),
 
@@ -149,6 +154,8 @@ function PDFInvoice(_ref) {
       },
 
     generate: function generate() {
+
+      this.genLogo();
       this.genHeader();
       this.genTableHeaders();
       this.genTable2Headers();

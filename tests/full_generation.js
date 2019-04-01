@@ -27,15 +27,15 @@ const document = generator({
 
     },
 
-  items: [
-    {description: 'SMS envoyés par Eskimmo', prixunitaire: 0.87, quantity: 12, amountht: 10.44},
-  ],
+    tab_recap: [
+       {description: 'SMS envoyés par Eskimmo', prixunitaire: 0.87, quantity: 12, amountht: 10.44},
+    ],
 
-    items2: [
+    tab_tva: [
         {tva: 2.09},
     ],
 
-    items3: [
+    tab_ttc: [
         {amountttc: 12.53},
     ],
 })
