@@ -63,7 +63,7 @@ function PDFInvoice(_ref) {
       doc.fontSize(10).text('Titre : Facture Eskimmo by Morman Design', CONTENT_LEFT_PADDING, 50, {align: 'left'});
       doc.fontSize(10).text('Période : ' + facture.periode, CONTENT_LEFT_PADDING, 60, {align: 'left'});
 
-      doc.fontSize(12).text(customer.name, CONTENT_LEFT_PADDING, 150, {align: 'left'});
+      doc.fontSize(12).text(customer.lastname + ' ' + customer.firstname, CONTENT_LEFT_PADDING, 150, {align: 'left'});
      // doc.fontSize(10).text(customer.address, CONTENT_LEFT_PADDING, 155, {align: 'left'});
       doc.fontSize(10).text('Email : ' +customer.email, CONTENT_LEFT_PADDING, 165, {align: 'left'});
       doc.fontSize(10).text('Tel : ' + customer.phone, CONTENT_LEFT_PADDING, 175, {align: 'left'});
