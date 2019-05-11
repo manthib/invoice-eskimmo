@@ -1,11 +1,14 @@
 'use strict';
 
+
 module.exports = {
   fr_FR: {
       description: 'Designation',
       name: 'Nom',
       quantity: 'Quantité',
-      amountht: 'Total HT en €',
+      amountht: 'Montant HT en €',
+      totalht : 'Total HT en €',
+      remiseht : 'Remise de ',
       amountttc: 'Total TTC en €',
       tva: 'TVA à 20% en €',
       amount: 'Total TTC en €',

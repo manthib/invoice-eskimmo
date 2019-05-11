@@ -44,10 +44,16 @@ const user = {"_id" : "",
     "hash" : "$2a$10$iOUzwJKgLN36bUaXZ0hg2OL87fCaAFaCyTepMpJQ4fYNACohA89c2",
     "__v" : 0}
 
-const quantitysms = alerts.length
-const prixht = quantitysms * 0.87
-const prixtva = prixht * 0.2
-const prixttc = prixht + prixtva
+//const quantitysms = alerts.length
+const quantitynew = 113
+const quantitymaj = 1
+const remise = 0.9
+const prixhtnew = quantitynew * 0.87
+const prixhtmaj = quantitymaj * 0.27
+const totalht = prixhtmaj + prixhtnew
+const remiseht = totalht * remise
+const prixtva = remiseht * 0.2
+const prixttc = remiseht + prixtva
 
 const document = generator({
   company: {
@@ -64,22 +70,42 @@ const document = generator({
     banqueadress: 'IVRY SUR SEINE CENTRE (03860)',
 
   },
-  customer: {
+    customer: {
+        lastname: 'DAUMONT',
+        firstname: 'Adrien',
+        email: 'adrien.daumont@iadfrance.fr',
+        address: '##############',
+        phone: '0634630124',
+
+    },
+
+  /*customer: {
     lastname: user.lastName,
     firstname: user.firstName,
     email: user.email,
     address: '##############',
     phone: user.phoneNumber,
 
-  },
+  },*/
     facture: {
-        periode: 'Du 01/03/19 au 31/03/19',
-        ref: 'Ref : '+ user.idclient +'-'+ user.nbmois,
+        periode: 'Du 01/04/19 au 30/04/19',
+       //ref: 'Ref : '+ user.idclient +'-'+ user.nbmois,
+        ref: 'Ref : 11-1',
+        remise: '10%',
 
     },
 
     tab_recap: [
-       {description: 'SMS envoyés par Eskimmo', prixunitaire: 0.87, quantity: quantitysms, amountht: prixht},
+       {description: 'SMS envoyés comme nouveauté', prixunitaire: 0.87, quantity: quantitynew, amountht: prixhtnew},
+        {description: 'SMS envoyés comme mise à jour', prixunitaire: 0.27, quantity: quantitymaj, amountht: prixhtmaj},
+    ],
+
+    tab_totalht: [
+        {totalht: totalht},
+    ],
+
+    tab_remiseht: [
+        {remiseht: remiseht},
     ],
 
     tab_tva: [
@@ -93,7 +119,8 @@ const document = generator({
 
 document.generate()
 
-document.pdfkitDoc.pipe(fs.createWriteStream('testing-' + user.idclient +'-'+ user.nbmois + '.pdf'))
+//document.pdfkitDoc.pipe(fs.createWriteStream('testing-' + user.idclient +'-'+ user.nbmois + '.pdf'))
+document.pdfkitDoc.pipe(fs.createWriteStream('../../factures/avril19/11-1.pdf'))
 
 
 /*
